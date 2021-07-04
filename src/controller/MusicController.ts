@@ -33,4 +33,30 @@ export class MusicController {
       res.status(error.statusCode || 400).send({ error: error.message });
     }
   }
+
+  async getMusicById(req: Request, res: Response) {
+    const { authorization } = req.headers;
+
+    try {
+      const id = req.params.id;
+
+      const music = await musicBusiness.getMusicById(id, authorization);
+
+      res.status(200).send({ music });
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ error: error.message });
+    }
+  }
+
+  async getAllMusics(req: Request, res: Response) {
+    const { authorization } = req.headers;
+
+    try {
+      const musics = await musicBusiness.getAllMusics(authorization);
+
+      res.status(200).send({ musics });
+    } catch (error) {
+      res.status(error.statusCode || 400).send({ error: error.message });
+    }
+  }
 }

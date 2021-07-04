@@ -52,4 +52,40 @@ export class MusicBusiness {
 
     return "Registry Done!";
   }
+
+  async getMusicById(id: string, authorization: string | undefined) {
+    const tokenData: AuthenticationData = this.authenticator.getData(
+      authorization!
+    );
+
+    if (!tokenData) {
+      throw new CustomError(403, "Invalid Token");
+    }
+
+    const music = await this.musicDatabase.getMusicById(id);
+
+    if (!music) {
+      throw new CustomError(404, "Music Not Found!");
+    }
+
+    return music;
+  }
+
+  async getAllMusics(authorization: string | undefined) {
+    const tokenData: AuthenticationData = this.authenticator.getData(
+      authorization!
+    );
+
+    if (!tokenData) {
+      throw new CustomError(403, "Invalid Token");
+    }
+
+    const musics = await this.musicDatabase.getAllMusics();
+
+    if (!musics) {
+      throw new CustomError(404, "Music Not Found!");
+    }
+
+    return musics;
+  }
 }
